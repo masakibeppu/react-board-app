@@ -1,6 +1,6 @@
 import styles from './login.module.scss';
 import {useState, useContext} from 'react';
-import {AccountContext} from "./Account"
+import {AccountContext} from "../component/Account"
 import { useRouter } from 'next/router';
 
 const Login = () => {

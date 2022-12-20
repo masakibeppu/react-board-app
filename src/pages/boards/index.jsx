@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { addPost, deletePost } from '../../features/Posts';
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { AccountContext } from "../Account"
+import { AccountContext } from "../../component/Account"
 import shortid from "shortid"
 
 
