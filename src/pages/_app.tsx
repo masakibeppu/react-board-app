@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import postsReducer from "../features/Posts";
 import { Account } from "../component/Account";
-import Status from "./Status";
+import Header from "../component/Header";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +14,7 @@ const store = configureStore({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Account>
+      <Header />
       <Provider store={store}>
         <Component {...pageProps} />
       </Provider>

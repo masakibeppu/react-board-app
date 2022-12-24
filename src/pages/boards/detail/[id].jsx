@@ -1,7 +1,5 @@
 import styles from '../boards.module.scss';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { useEffect} from 'react';
 
 export async function getStaticProps({ params }) {
   const req = await fetch(`https://picogbipw8.execute-api.ap-northeast-1.amazonaws.com/board-app/board-app`)
@@ -36,7 +34,6 @@ export async function getStaticPaths() {
 
 export default function Home({ detail }) {
   const router = useRouter();
-  const { id } = router.query
   const handleClick = () => {
     router.push('/boards');
   }
@@ -46,9 +43,11 @@ export default function Home({ detail }) {
         <div className={styles.title}>
           <h1>react 掲示板</h1>
         </div>
-        <div className="post">
-          <h1 className={styles.postName}>{detail.title}</h1>
-          <h1 className={styles.postContent}>{detail.content}</h1>
+        <div className={styles.displayPosts} >
+          <div className="post">
+            <h1 className={styles.postName}>{detail.title}</h1>
+            <h1 className={styles.postContent}>{detail.content}</h1>
+          </div>
         </div>
         <div
             className={styles.helpMessage}

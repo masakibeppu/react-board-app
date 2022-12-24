@@ -1,21 +1,13 @@
 import styles from './boards.module.scss';
-import { useSelector, useDispatch } from "react-redux"
-import { addPost, deletePost } from '../../features/Posts';
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AccountContext } from "../../component/Account"
-import shortid from "shortid"
-
+import PostForm from '../../component/PostForm';
 
 export default function Home() {
-    const { getSession, logout } = useContext(AccountContext);
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const { getSession } = useContext(AccountContext);
     const [posts, setPosts] = useState([])
-    // const postList = useSelector((state) => state.posts.value);
     const router = useRouter();
-  
-    const dispatch = useDispatch();
 
     useEffect(() => {
       getSession()
@@ -34,28 +26,7 @@ export default function Home() {
         .then(data => {
             setPosts(data.Items)
         })
-    },[])
-
-  const handleClick = () => {
-    const uid = shortid.generate();
-    const AddData = {
-        "id": uid,
-        "title": title,
-        "content": content
-        }
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(AddData)
-    };
-    fetch('https://picogbipw8.execute-api.ap-northeast-1.amazonaws.com/board-app/board-app', requestOptions)
-        .then(response => response.json())
-        .then(data => console.log(data));
-
-    setTitle("");
-    setContent("");
-    setPosts([...posts, AddData])
-  }
+    },[posts])
 
   const handleClickDetail = (id) => {
     router.push(`/boards/detail/${id}`);
@@ -74,32 +45,16 @@ export default function Home() {
         .then(data => console.log(data));
 
     setPosts(
-        posts.filter((post, index) => (post.id !== id))
+        posts.filter((post) => (post.id !== id))
     )
   }
 
   return (
     <div className={styles.App}>
-        <button onClick={logout}>ログアウト</button>
       <div className={styles.title}>
         <h1>react 掲示板</h1>
       </div>
-      <div className={styles.addPost}>
-        <input 
-          type="text" 
-          placeholder='タイトル' 
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <input 
-          type="text" 
-          placeholder='投稿内容'
-          onChange={(e) => setContent(e.target.value)}
-          value={content}
-          />
-        <button onClick={() => handleClick()}>投稿</button>
-        <hr/>
-      </div>
+      <PostForm/>
       <div className={styles.displayPosts} >
         {posts.map((post)=> (
           <div key={post.id} className="post">
