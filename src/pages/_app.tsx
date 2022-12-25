@@ -12,12 +12,32 @@ const store = configureStore({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <Account>
-      <Header />
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    </Account>
-  );
+  // return (
+  //   <Account>
+  //     <Header />
+  //     <Provider store={store}>
+  //       <Component {...pageProps} />
+  //     </Provider>
+  //   </Account>
+  // );
+  switch (pageProps.layout) {
+    case 'main': {
+      return (
+        <Account>
+          <Header />
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
+        </Account>
+      )    
+    } default: {
+      return (
+        <Account>
+          <Provider store={store}>
+            <Component {...pageProps} />
+          </Provider>
+        </Account>
+      )   
+    }
+  }
 }
